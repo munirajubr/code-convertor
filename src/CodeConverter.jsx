@@ -47,7 +47,8 @@ const handleConvert = async () => {
       {
         method: "POST",
         headers: {
-          Authorization: "Bearer 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",
+          // Authorization: "Bearer <replace your API>.",
+          Authorization: "Bearer api.....",
           "HTTP-Referer": "https://www.sitename.com",
           "X-Title": "Code-convertor",
           "Content-Type": "application/json",
