@@ -1,9 +1,9 @@
 import './App.css';
-
+import Converter from './CodeConverter'
 function App() {
   return (
     <>
-    <h1>Hello React.js</h1>
+    <Converter/>
     </>
   );
 }
