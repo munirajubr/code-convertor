@@ -49,6 +49,7 @@ const CodeConverter = () => {
           headers: {
             // // Authorization: "Bearer <rplace your API>",
             // Authorization: "Bearer api..............",
+
             "HTTP-Referer": "https://www.sitename.com",
             "X-Title": "Code-convertor",
             "Content-Type": "application/json",
@@ -208,6 +209,11 @@ const CodeConverter = () => {
         >
           {loading ? "Converting..." : "Convert Code"}
         </button>
+        <p className="msg">
+          {loading
+            ? `It takes a while to convert the code to ${targetLang}`
+            : ""}
+        </p>
       </div>
     </div>
   );

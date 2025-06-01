@@ -159,7 +159,6 @@ h1 {
   border-left: 4px solid #c62828;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .editor-section {
     flex-direction: column;
@@ -195,4 +194,9 @@ h1 {
 
 .copy-btn:hover {
   background-color: #2d2d2d;
+}
+
+.msg{
+  font-size: small;
+  opacity: 50%;
 }

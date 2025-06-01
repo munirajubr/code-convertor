@@ -10,6 +10,7 @@ export const languages = [
   "Java",
   "C++",
   "C#",
+  "C",
   "TypeScript",
   "Go",
   "Ruby",
