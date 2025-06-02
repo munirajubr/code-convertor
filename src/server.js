@@ -17,8 +17,8 @@ app.use(express.json());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100
 });
 app.use(limiter);
 
@@ -37,7 +37,7 @@ app.post('/api/convert', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const prompt = `Convert the following code from ${sourceLang} to ${targetLang}:\n\n${code}`;
+    const prompt = `Convert the following code from ${sourceLang} to ${targetLang} and provide a brief explanation of the changes:\n\n${code}`;
 
     const response = await openai.createChatCompletion({
       model: "deepseek/deepseek-r1:free",
@@ -45,10 +45,23 @@ app.post('/api/convert', async (req, res) => {
     });
 
     const fullOutput = response.data.choices?.[0]?.message?.content || "// No response received.";
+    
+    // Extract converted code
     const codeMatch = fullOutput.match(/```(?:\w+)?\n([\s\S]*?)```/);
     const extractedCode = codeMatch ? codeMatch[1].trim() : fullOutput;
+    
+    // Extract explanation if available
+    let explanation = "No explanation provided.";
+    if (fullOutput.includes("Explanation:")) {
+      explanation = fullOutput.split("Explanation:")[1].trim();
+    } else if (fullOutput.includes("explanation:")) {
+      explanation = fullOutput.split("explanation:")[1].trim();
+    }
 
-    res.json({ convertedCode: extractedCode });
+    res.json({ 
+      convertedCode: extractedCode,
+      explanation: explanation
+    });
   } catch (error) {
     console.error('Conversion error:', error);
     res.status(500).json({ error: 'Error converting code' });

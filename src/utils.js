@@ -16,12 +16,15 @@ export const languages = [
   "Ruby",
   "PHP",
   "Rust",
+  "Swift",
+  "Kotlin",
+  "Scala",
+  "R",
+  "Dart"
 ];
 
 export const validateInput = (code) => {
-  // Basic validation - could be expanded
   if (typeof code !== 'string') return false;
-  if (code.length > 5000) return false; // Limit code size
+  if (code.length > 50000) return false;
   return true;
 };
-

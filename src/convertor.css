@@ -1,7 +1,7 @@
 body {
   display: flex;
   justify-content: center;
-  font-family: sans-serif;
+  font-family: 'Fira Code', 'Courier New', monospace, sans-serif;
   background-color: #1e1e1e;
   color: white;
   margin: 0;
@@ -70,11 +70,11 @@ h1 {
 
 .code-label {
   font-weight: bold;
+  justify-content: center;
   margin-bottom: 0.5rem;
 }
 
 .code-editor {
-  display: flex;
   background-color: #1e1e1e;
   border: 1px solid #333;
   height: 360px;
@@ -82,19 +82,41 @@ h1 {
   border-radius: 4px;
 }
 
+.code-view {
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+}
+
+.code-header {
+  background-color: #252526;
+  color: #9cdcfe;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #333;
+  font-family: 'Fira Code', monospace;
+}
+
+.code-content {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
 .line-numbers {
   width: 35px;
   background-color: #2d2d2d;
-  color: #888;
+  color: #858585;
   border: none;
   border-right: 1px solid #333;
   resize: none;
   text-align: right;
-  padding: 0.5rem 0.3rem;
-  line-height: 1.4;
-  font-family: monospace;
+  padding: 8px 4px;
+  line-height: 1.5;
+  font-family: 'Fira Code', monospace;
   overflow: hidden;
   user-select: none;
+  font-size: 13px;
 }
 
 .code-textarea {
@@ -103,11 +125,12 @@ h1 {
   color: #d4d4d4;
   border: none;
   resize: none;
-  padding: 0.5rem;
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 1.4;
+  padding: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.5;
   overflow: auto;
+  tab-size: 2;
 }
 
 .code-textarea:focus {
@@ -146,8 +169,6 @@ h1 {
   margin-top: 5px;
 }
 
-
-
 .error-message {
   background-color: #ffebee;
   color: #c62828;
@@ -159,44 +180,54 @@ h1 {
   border-left: 4px solid #c62828;
 }
 
-@media (max-width: 768px) {
-  .editor-section {
-    flex-direction: column;
-  }
-  
-  .select-section {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .code-editor {
-    height: 250px;
-  }
+.explanation-section {
+  margin-top: 2rem;
+  background-color: #252526;
+  border-radius: 8px;
+  padding: 1.5rem;
 }
 
-.loading-indicator {
-  text-align: center;
-  padding: 10px;
+.explanation-section h3 {
   color: #569cd6;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
 }
 
-.copy-btn {
-  background-color: #515151;
-  color: white;
-  border: none;
-  padding: 0.25rem 1rem;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
+.explanation-section h4 {
+  color: #9cdcfe;
+  margin: 1.5rem 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.explanation-points {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.explanation-points li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: #d4d4d4;
+}
+
+.explanation-points strong {
+  color: #ce9178;
+}
+
+.explanation-summary {
+  background-color: #1e1e1e;
+  padding: 1rem;
   border-radius: 4px;
-  transition: background-color 0.2s ease-in-out;
+  line-height: 1.6;
+  margin: 1.5rem 0 0 0;
+  border-left: 3px solid #569cd6;
 }
 
-.copy-btn:hover {
-  background-color: #2d2d2d;
-}
-
-.msg{
-  font-size: small;
-  opacity: 50%;
+.code-block {
+  margin: 1rem 0;
+  border-radius: 6px;
+  overflow: hidden;
 }
