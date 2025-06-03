@@ -29,6 +29,42 @@ const CodeConverter = () => {
     }
   };
 
+  const formatExplanation = (text) => {
+    if (!text) return null;
+
+    const codeBlocks = [];
+    let cleanText = text.replace(/```[\s\S]*?```/g, (match) => {
+      codeBlocks.push(match);
+      return `%%CODEBLOCK${codeBlocks.length - 1}%%`;
+    });
+
+    const paragraphs = cleanText.split("\n\n");
+
+    return paragraphs.map((paragraph, i) => {
+      let processedPara = paragraph.replace(
+        /%%CODEBLOCK(\d+)%%/g,
+        (_, index) => {
+          return `<div class="code-block">${codeBlocks[Number(index)]}</div>`;
+        }
+      );
+
+      processedPara = processedPara
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(/`(.*?)`/g, "<code>$1</code>")
+        .replace(/^### (.*$)/gm, "<h4>$1</h4>")
+        .replace(/^## (.*$)/gm, "<h3>$1</h3>");
+
+      return (
+        <div
+          key={i}
+          dangerouslySetInnerHTML={{ __html: processedPara }}
+          className="explanation-paragraph"
+        />
+      );
+    });
+  };
+
   const handleConvert = async () => {
     if (!inputCode.trim()) {
       setConvertedCode("// Please enter source code to convert.");
@@ -50,7 +86,6 @@ const CodeConverter = () => {
           headers: {
             // // Authorization: "Bearer <rplace your API>",
             // Authorization: "Bearer api..............",
-            
             "HTTP-Referer": "https://www.sitename.com",
             "X-Title": "Code-convertor",
             "Content-Type": "application/json",
@@ -67,18 +102,19 @@ const CodeConverter = () => {
         throw new Error(data.error?.message || "Failed to convert code");
       }
 
-      const fullOutput = data.choices?.[0]?.message?.content || "// No response received.";
-      
-      // Extract converted code
+      const fullOutput =
+        data.choices?.[0]?.message?.content || "// No response received.";
+
       const codeMatch = fullOutput.match(/```(?:\w+)?\n([\s\S]*?)```/);
       const extractedCode = codeMatch ? codeMatch[1].trim() : fullOutput;
-      
-      // Extract explanation
-      let extractedExplanation = "No explanation provided.";
+
+      let extractedExplanation = fullOutput;
       if (fullOutput.includes("Explanation:")) {
         extractedExplanation = fullOutput.split("Explanation:")[1].trim();
       } else if (fullOutput.includes("explanation:")) {
         extractedExplanation = fullOutput.split("explanation:")[1].trim();
+      } else if (codeMatch) {
+        extractedExplanation = fullOutput.split("```")[0].trim();
       }
 
       setConvertedCode(extractedCode || "// No code generated");
@@ -103,6 +139,7 @@ const CodeConverter = () => {
       })
       .catch((err) => {
         console.error("Copy failed:", err);
+        setError("Failed to copy text to clipboard");
       });
   };
 
@@ -198,11 +235,44 @@ const CodeConverter = () => {
           </div>
           <div className="copy-button-container">
             <button
-              className="copy-btn"
+              className={`copy-btn ${copied ? "copied" : ""}`}
               onClick={handleCopy}
-              disabled={!convertedCode}
+              disabled={!convertedCode || copied}
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-copy-check-icon lucide-copy-check"
+                >
+                  <path d="m12 15 2 2 4-4" />
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-copy-icon lucide-copy"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
@@ -214,12 +284,17 @@ const CodeConverter = () => {
           onClick={handleConvert}
           disabled={loading}
         >
-          {loading ? "Converting..." : "Convert Code"}
+          {loading ? (
+            <>
+              <span className="spinner"></span>
+              Converting...
+            </>
+          ) : (
+            "Convert Code"
+          )}
         </button>
         <p className="msg">
-          {loading
-            ? `Please wait, it may take a moment to convert`
-            : ""}
+          {loading ? "Please wait, it may take a moment to convert" : ""}
         </p>
       </div>
 
@@ -227,7 +302,7 @@ const CodeConverter = () => {
         <div className="explanation-section">
           <h3>Code Explanation</h3>
           <div className="explanation-content">
-            {explanation}
+            {formatExplanation(explanation)}
           </div>
         </div>
       )}

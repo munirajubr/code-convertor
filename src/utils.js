@@ -18,7 +18,6 @@ export const languages = [
   "Rust",
   "Swift",
   "Kotlin",
-  "Scala",
   "R",
   "Dart"
 ];
