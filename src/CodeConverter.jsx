@@ -77,7 +77,7 @@ const CodeConverter = () => {
     setExplanation("");
 
     try {
-      const prompt = `Convert the following code from ${sourceLang} to ${targetLang} and provide a brief explanation of the changes:\n\n${inputCode}`;
+      const prompt = `Convert the following code from ${sourceLang} to ${targetLang} and provide a brief explanation of the code in paragraph :\n${inputCode}`;
 
       const response = await fetch(
         "https://openrouter.ai/api/v1/chat/completions",
@@ -251,6 +251,7 @@ const CodeConverter = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   class="lucide lucide-copy-check-icon lucide-copy-check"
+                  className="copyicon"
                 >
                   <path d="m12 15 2 2 4-4" />
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
@@ -268,6 +269,7 @@ const CodeConverter = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   class="lucide lucide-copy-icon lucide-copy"
+                  className="copyicon"
                 >
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                   <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
