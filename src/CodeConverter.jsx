@@ -86,6 +86,9 @@ const CodeConverter = () => {
           headers: {
             // // Authorization: "Bearer <rplace your API>",
             // Authorization: "Bearer api..............",
+            // Authorization: "Bearer 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",
+            Authorization:
+              "Bearer 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",
             "HTTP-Referer": "https://www.sitename.com",
             "X-Title": "Code-convertor",
             "Content-Type": "application/json",
@@ -234,48 +237,15 @@ const CodeConverter = () => {
             </div>
           </div>
           <div className="copy-button-container">
-            <button
-              className={`copy-btn ${copied ? "copied" : ""}`}
-              onClick={handleCopy}
-              disabled={!convertedCode || copied}
-            >
-              {copied ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-copy-check-icon lucide-copy-check"
-                  className="copyicon"
-                >
-                  <path d="m12 15 2 2 4-4" />
-                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-copy-icon lucide-copy"
-                  className="copyicon"
-                >
-                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                </svg>
-              )}
-            </button>
+            <div className="copy-button-container">
+              <button
+                className={`copy-btn ${copied ? "copied" : ""}`}
+                onClick={handleCopy}
+                disabled={!convertedCode || copied}
+              >
+                {copied ? "Copied!" : "Copy"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
