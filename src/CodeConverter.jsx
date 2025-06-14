@@ -86,9 +86,7 @@ const CodeConverter = () => {
           headers: {
             // // Authorization: "Bearer <rplace your API>",
             // Authorization: "Bearer api..............",
-            // Authorization: "Bearer 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",
-            Authorization:
-              "Bearer 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",
+           
             "HTTP-Referer": "https://www.sitename.com",
             "X-Title": "Code-convertor",
             "Content-Type": "application/json",
